@@ -1,0 +1,32 @@
+<h2>Product list <button class="btn text-right" (click)="logout()">Logout</button></h2>
+<button class="btn" *ngIf="currentUser.role === 'admin'" [routerLink]="['/product/new']">Add product</button>
+<div class=" p-2">
+  <table class="table" border="1" *ngIf="products && products.length; else noRecords">
+    <tr>
+      <th>Name</th>
+      <th>Image</th>
+      <th>Description</th>
+      <th>Qauntity</th>
+      <th>Action</th>
+    </tr>
+    <tr *ngFor="let product of products">
+      <td>{{product.name}}</td>
+      <td>{{product.img}}</td>
+      <td>{{product.description}}</td>
+      <td>{{product.quantity}}</td>
+      <td>
+        <div *ngIf="currentUser.role==='admin'">
+          <button class="btn" [routerLink]="['/product', product.id]"><i class="fa fa-pencil"
+              aria-hidden="true"></i></button>
+          <button class="btn" (click)="delete(product.id)"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        </div>
+        <div *ngIf="currentUser.role==='user'">
+          <button>Add to cart</button>
+        </div>
+      </td>
+    </tr>
+  </table>
+  <ng-template #noRecords>
+    <h2>No records</h2>
+  </ng-template>
+</div>
